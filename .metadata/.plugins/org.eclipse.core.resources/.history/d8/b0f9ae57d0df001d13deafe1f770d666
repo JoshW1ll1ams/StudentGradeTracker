@@ -1,0 +1,41 @@
+import java.awt.Color;
+
+import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
+public class TextBox extends JTextField{
+	public TextBox()
+	{
+		// Add a document listener to check for changes in the text input field
+		this.getDocument().addDocumentListener(new DocumentListener() 
+		{
+	         public void insertUpdate(DocumentEvent e) {
+	             textChanged();
+	         }
+
+	         public void removeUpdate(DocumentEvent e) {
+	             textChanged();
+	         }
+
+	         public void changedUpdate(DocumentEvent e) {
+	             textChanged();
+	         }
+
+	         private void textChanged() {
+	        	 if(this.getText().matches("[a-zA-Z]+") && this.getText().length() <=15)
+	        	 {
+	        		 this.setForeground(Color.black);
+	        		 Main.loginValid = true;
+	        	 }
+	        	 else
+	        	 {
+	        		 this.setForeground(Color.red);
+	        		 Main.loginValid = false;
+	        	 }
+	        	
+	         }
+	     });
+	}
+
+}

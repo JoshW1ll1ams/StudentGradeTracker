@@ -1,0 +1,11 @@
+import java.awt.Color;
+
+import javax.swing.JPanel;
+
+public class bottomPanel extends JPanel{
+	public bottomPanel()
+	{
+		this.setBackground(Color.decode(Main.lightGreen)); 
+		this.setLayout(null);
+	}
+}

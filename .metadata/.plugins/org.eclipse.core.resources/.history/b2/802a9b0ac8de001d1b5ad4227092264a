@@ -1,0 +1,19 @@
+public class TextBox extends JTextField{ 
+
+	public void TextBox() 
+
+	{ 
+
+		 
+
+		this.setSize(200,200); 
+
+		this.setText("Hello"); 
+
+	} 
+
+} 
+
+ 
+
+ 

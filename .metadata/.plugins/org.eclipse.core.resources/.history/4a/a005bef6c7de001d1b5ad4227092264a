@@ -1,0 +1,17 @@
+public class Panel extends JPanel{ 
+
+	public Panel() 
+
+	{ 
+
+		this.setBackground(Color.BLACK); 
+
+		this.setLayout(null); 
+
+		this.setVisible(true); 
+
+	} 
+
+} 
+
+ 

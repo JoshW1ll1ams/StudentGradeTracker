@@ -1,0 +1,22 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+
+public class Button extends JButton {
+	static String type;
+	public Button(String type)
+	{
+		this.type = type;
+		
+		this.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+               if(Button.type == "login")
+               {
+            	   System.out.println("Hello");
+               }
+            }
+        });
+	}
+	
+}

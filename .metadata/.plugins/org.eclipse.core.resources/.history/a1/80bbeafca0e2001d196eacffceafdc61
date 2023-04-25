@@ -1,0 +1,13 @@
+import java.awt.Color;
+
+import javax.swing.JPanel;
+
+public class bottomPanel extends JPanel{
+	public bottomPanel(Button exitButton, Button resetButton)
+	{
+		this.setBackground(Color.decode(Main.lightGray)); 
+		this.setLayout(null);
+		this.add(exitButton);
+		this.add(resetButton);
+	}
+}

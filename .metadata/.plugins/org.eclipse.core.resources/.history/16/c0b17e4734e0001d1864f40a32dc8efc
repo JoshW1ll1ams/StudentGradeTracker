@@ -1,0 +1,37 @@
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+
+public class Button extends JButton {
+	static String type;
+	public Button(String type, String text, String color)
+	{
+		this.type = type;
+		this.setVisible(true);
+		this.setText(text);
+		// Remove button border
+		this.setBorderPainted(false);
+		// Remove button text border
+		this.setFocusPainted(false); 
+		this.setBackground(Color.decode(color)); 
+		this.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+               if(Button.type == "login")
+               {
+            	   if(Main.loginValid == true)
+            	   {
+            		   Main.confirmButton.setVisible(true);
+            		   Main.confirmName.setText("Welcome "+ Main.nameText.getText()+", please click to login.")
+            		   Main.confirmName.setVisible(true);
+            		   Main.loginButton.setVisible(false);
+            		   Main.enterName.setVisible(false);
+            		   Main.nameText.setVisible(false);
+            	   }
+               }
+            }
+        });
+	}
+	
+}

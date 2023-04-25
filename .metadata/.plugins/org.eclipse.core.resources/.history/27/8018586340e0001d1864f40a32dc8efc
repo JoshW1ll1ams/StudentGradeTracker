@@ -1,0 +1,47 @@
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
+
+import javax.swing.JTextField;
+
+public class Main { 
+	
+	static String lightPurple = "#9590A8"; 
+	static LoginWindow loginWindow;
+	static StudentPanel students;
+	static MainFrame mainFrame;
+	public static void main(String[] args)  
+
+	{ 
+		mainFrame = new MainFrame();
+		
+		Dimension windowSize = mainFrame.getSize();
+		int windowWidth = windowSize.width; 
+		int windowHeight = windowSize.height; 
+		
+		
+		loginWindow = new LoginWindow();
+		students = new StudentPanel();
+		students.setVisible(false);
+		
+		mainFrame.add(loginWindow);
+		mainFrame.add(students);
+		
+		loginWindow.positionElements();
+
+		loginWindow.addComponentListener(new ComponentAdapter() {
+		    @Override
+		    public void componentResized(ComponentEvent e) {
+		    	loginWindow.positionElements();
+		    }
+		});
+	} 
+} 

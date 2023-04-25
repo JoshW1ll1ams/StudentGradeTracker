@@ -1,0 +1,88 @@
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.GraphicsDevice;
+import java.awt.Point;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+
+import javax.swing.JFrame;
+import javax.swing.JTextField;
+
+public class LoginWindow extends JFrame{ 
+	static String lightGreen = "#E5FFDE"; 
+	static String lightGray = "#BBCBCB"; 
+	static String lightPurple = "#9590A8"; 
+	static String darkRed = "#18020C";
+	static TextBox nameText;
+	static Boolean loginValid = false;
+	static Button confirmButton;
+	static Button loginButton;
+	static Label enterName;
+	
+	public LoginWindow() 
+	{ 
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		this.setSize(1500,700);
+		this.getContentPane().setBackground(Color.decode(lightGreen)); 
+		this.setResizable(true); 
+		this.setLayout(null);  
+		this.setVisible(true); 
+		
+		
+		// Change tool tip settings and add colours background and foreground
+				ToolTip.initialiseToolTip(lightGreen,darkRed);
+				
+
+				ArrayList<Component> components = new ArrayList<Component>();
+	
+				
+				nameText = new TextBox()
+				{
+					public Point getToolTipLocation(MouseEvent e) 
+					{
+					    return new Point(BoxCenter(nameText)+10, 7);
+					}
+				};
+				nameText.setToolTipText("Accept's characters A-Z (Max 15, Min 3)");
+				nameText.setHorizontalAlignment(JTextField.CENTER);
+				enterName = new Label("Please enter your name to continue:");
+				
+				
+				// Create my button and pass in the type, the display text and the colour
+				loginButton = new Button("login", "Login",lightGray);
+				//confirmButton = new Button("confirm", "Confirm",lightGray);
+				//confirmButton.setVisible(false);
+				components.add(nameText);
+				components.add(enterName);
+				components.add(loginButton);
+				//components.add(confirmButton);
+
+
+				addComponents(components);
+				
+	}
+	private void addComponents(ArrayList<Component> components) {
+		for(int i= 0; i < components.size(); i++)
+		{		
+			this.add(components.get(i));
+		}
+	} 
+	
+	public void positionElements()
+	{
+    	// Reset all of the dimensions before resizing any elements
+    	Dimension windowSize = Main.loginWindow.getSize();
+		int windowWidth = windowSize.width; 
+		int windowHeight = windowSize.height; 
+		
+		enterName.setBounds((windowWidth/2)-140,(windowHeight/3)-50,windowWidth,40);  
+		nameText.setBounds((windowWidth/2)-((windowWidth/5)/2),(windowHeight/3),(windowWidth/5),30); 
+		loginButton.setBounds((windowWidth/2)-125,(windowHeight/3)+50,250,30);
+		confirmButton.setBounds((windowWidth/2)-((windowWidth/5)/2),(windowHeight/3),(windowWidth/5),30); 
+
+	}
+} 

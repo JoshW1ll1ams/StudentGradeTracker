@@ -1,0 +1,240 @@
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.plaf.basic.BasicScrollBarUI;
+public class StudentPanel extends JPanel{
+	
+	static TextBox studentName;
+	static TextBox studentScore;
+	static Label studentNameText;
+	static Label studentScoreText;
+	static Label totalStudentLabel;
+	static Label studentAverage;
+	static Button studentAddButton;
+	static Boolean nameValid = false;
+	static Boolean scoreValid = false;
+	static StudentContainer rowContainer;
+	static int windowWidth;
+	static int totalStudents = 0;
+	static int totalScore = 0;
+	static JScrollPane scrollFrame;
+	static int scrollOffSet = 10;
+	static bottomPanel bottomButtonPanel;
+	
+	ArrayList<Component> components = new ArrayList<Component>();
+	static ArrayList<StudentRow> students = new ArrayList<StudentRow>();
+	
+	public StudentPanel(int windowWidth, int windowHeight)
+	{
+		this.windowWidth = windowWidth;
+		this.setSize(windowWidth,windowHeight);
+		this.setBackground(Color.decode(Main.lightGreen)); 
+		this.setLayout(null);  
+		this.setVisible(false); 
+		
+		
+		studentName = new TextBox("studentName")
+		{
+			public Point getToolTipLocation(MouseEvent e) 
+			{
+			    return new Point(BoxCenter(studentName)+10, 7);
+			}
+		};
+		studentName.setToolTipText("Accept's characters A-Z (Max 15, Min 3)");
+		studentName.setHorizontalAlignment(JTextField.CENTER);
+		
+		
+		studentScore = new TextBox("studentScore")
+		{
+			public Point getToolTipLocation(MouseEvent e) 
+			{
+			    return new Point(BoxCenter(studentName)+10, 7);
+			}
+		};
+		studentScore.setToolTipText("Accept's numbers 1-9 (Range within 1-100)");
+		studentScore.setHorizontalAlignment(JTextField.CENTER);
+		
+		
+		studentNameText = new Label("Student name:",17);
+		studentScoreText = new Label("Student Score(%):",17);
+		studentAddButton = new Button("Add Student", Main.darkRed);
+		studentAddButton.setForeground(Color.decode(Main.lightGray));
+
+		totalStudentLabel = new Label("", 17);
+		studentAverage = new Label("",17);
+		
+		rowContainer = new StudentContainer(windowWidth,windowHeight);
+		
+		bottomButtonPanel = new bottomPanel();
+
+		scrollFrame = new JScrollPane(rowContainer);
+		scrollFrame.setViewportView(rowContainer);
+		scrollFrame.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		scrollFrame.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollFrame.requestFocusInWindow();
+		scrollFrame.setBorder(BorderFactory.createEmptyBorder());
+		scrollFrame.getVerticalScrollBar().setBackground(Color.decode(Main.lightGreen));
+		
+		scrollFrame.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
+		    @Override
+		    protected void configureScrollBarColors() {
+		        thumbColor = Color.decode(Main.lightPurple); 
+		    }
+		    @Override
+	        protected JButton createDecreaseButton(int orientation) {
+	            return blankButton();
+	        }
+
+	        @Override    
+	        protected JButton createIncreaseButton(int orientation) {
+	            return blankButton();
+	        }
+
+	        private JButton blankButton() {
+	            JButton blankButton = new JButton();
+	            blankButton.setPreferredSize(new Dimension(0, 0));
+	            blankButton.setMinimumSize(new Dimension(0, 0));
+	            blankButton.setMaximumSize(new Dimension(0, 0));
+	            return blankButton;
+	        }
+		});
+		
+		components.add(studentName);
+		components.add(studentNameText);
+		components.add(studentScoreText);
+		components.add(studentScore);
+		components.add(studentAddButton);
+		components.add(totalStudentLabel);
+		components.add(studentAverage);
+		components.add(studentAverage);
+		components.add(scrollFrame);
+		components.add(bottomButtonPanel);
+
+		studentAddButton.addActionListener(new ActionListener() 
+		{
+            public void actionPerformed(ActionEvent e) 
+            {
+            	if(nameValid && scoreValid)
+            	{
+            		scrollOffSet += 40;
+            		students.add(new StudentRow(windowWidth,studentName.getText(),studentScore.getText(),LoginWindow.nameText.getText()));
+            		drawRows(students);
+            		int tempScore = Integer.parseInt(studentScore.getText());
+            		totalScore += tempScore;
+            		updateStudentNum();
+            		positionElements();
+            	}
+            }
+        });
+		
+		addComponents(components);
+	}
+	
+	static int rowcounter = 0;
+	
+	static void drawRows(ArrayList<StudentRow> students) {
+		rowcounter = 0;
+		if(students.size() == 0)
+		{
+			rowContainer.revalidate();
+			rowContainer.repaint();
+		}
+		int frameWidth = Main.mainFrame.getSize().width;
+		for (int i = 0; i < students.size(); i++) {
+		    students.get(i).setBounds(0, (rowcounter * 40), windowWidth, 40);
+			Component label =  students.get(i).getComponent(0);
+			Component button =  students.get(i).getComponent(1);
+			Dimension labelSize = label.getPreferredSize();
+			label.setBounds(((frameWidth/2)+270)-labelSize.width,5,labelSize.width,30);
+			button.setBounds((frameWidth/2)+270,5,100,30);
+		    rowcounter++;
+		    rowContainer.revalidate();
+			rowContainer.repaint();
+		}	
+	}
+	
+	static void removeRows(ArrayList<StudentRow> students,Component currentRowSelected) {
+		for(int i= 0; i < students.size(); i++)
+		{	
+			if(students.get(i) == currentRowSelected)
+			{
+				scrollOffSet -= 40;
+				StudentPanel.rowContainer.remove(currentRowSelected);
+				students.remove(i);
+				positionElements();
+			}
+		}
+	
+	}
+	
+
+	private void addComponents(ArrayList<Component> components) {
+		for(int i= 0; i < components.size(); i++)
+		{
+			this.add(components.get(i));
+		}
+	}
+
+
+	public static void positionElements() {
+    	// Reset all of the dimensions before resizing any elements
+		Dimension windowSize = Main.mainFrame.getSize();
+		int windowWidth = windowSize.width; 
+		int windowHeight = windowSize.height;
+		
+		studentName.setBounds((windowWidth/2),10,200,30); 
+		studentScore.setBounds((windowWidth/2),60,200,30); 
+		studentNameText.setBounds((windowWidth/2)-200,10,200,30); 
+		studentScoreText.setBounds((windowWidth/2)-200,60,200,30); 
+		studentAddButton.setBounds((windowWidth/2)-200,110,400,30); 
+		totalStudentLabel.setBounds((windowWidth/2)-200,150,200,30);
+		studentAverage.setBounds((windowWidth/2)+10,150,200,30);
+		
+	
+		rowContainer.setPreferredSize(new Dimension(windowWidth, scrollOffSet));
+		//rowContainer.setBounds(15,175,windowWidth-45,windowHeight-210);
+		scrollFrame.setBounds(15,175,windowWidth-45,windowHeight-400);
+
+		
+		bottomButtonPanel.setBounds(0,windowHeight-400,windowWidth,30);
+		
+		drawRows(students);
+		updateStudentNum();
+	} 
+	
+	public static void updateStudentNum()
+	{
+		String studentsTotal = Integer.toString(totalStudents);
+		totalStudentLabel.setText("Total students: "+studentsTotal);
+		String scoreTotal = "";
+		try 
+		{
+			int average = totalScore/totalStudents;
+			scoreTotal = Integer.toString(average);
+		} catch (ArithmeticException e) 
+		{
+		    System.out.println("Attempted divide by zero due to no students.");
+		}
+
+		if(totalStudents == 0)
+		{
+			scoreTotal = "N/A";
+		}
+		
+		studentAverage.setText("Average Score (%): "+scoreTotal);
+	}
+}

@@ -1,0 +1,15 @@
+import java.awt.Color;
+
+import javax.swing.JFrame;
+
+public class MainFrame extends JFrame{
+	static String lightGreen = "#E5FFDE"; 
+	public MainFrame()
+	{
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		this.getContentPane().setBackground(Color.decode(lightGreen)); 
+		this.setResizable(true); 
+		this.setVisible(true);
+	}
+}

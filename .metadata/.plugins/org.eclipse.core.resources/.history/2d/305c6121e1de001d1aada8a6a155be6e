@@ -1,0 +1,23 @@
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class TimerTask {
+	public void Timer(int timerLength)
+	{
+		  Timer timer = new Timer();
+		    
+		    TimerTask task = new TimerTask()
+		    {
+				@Override
+				// This is the code that will run once our task is complete
+				public void run() {
+					// After 3 seconds set label to invisible
+			
+				}
+		    	
+		    };
+		    // This links the timer and the timer task, and triggers the run after 3 seconds
+			timer.schedule(task,timerLength*1000);
+				
+	}
+}

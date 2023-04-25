@@ -1,0 +1,14 @@
+import java.awt.Color;
+import java.awt.Font;
+
+import javax.swing.ToolTipManager;
+import javax.swing.UIManager;
+
+public class ToolTip {
+	public static void initialiseToolTip() {
+		ToolTipManager.sharedInstance().setInitialDelay(50);
+		UIManager.put("ToolTip.font", new Font("Arial", Font.PLAIN, 14));
+		UIManager.put("ToolTip.background", Color.YELLOW);
+	    UIManager.put("ToolTip.foreground", Color.BLUE);
+	}
+}

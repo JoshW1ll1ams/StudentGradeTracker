@@ -1,0 +1,15 @@
+import java.awt.Color;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+
+import javax.swing.JPanel;
+
+public class StudentContainer extends JPanel{
+	public StudentContainer(int windowWidth, int windowHeight)
+	{
+		this.setBackground(Color.decode(Main.lightGreen)); 
+		this.setLayout(null); 
+
+	}
+	
+}

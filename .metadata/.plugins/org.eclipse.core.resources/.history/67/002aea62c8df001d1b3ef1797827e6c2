@@ -1,0 +1,13 @@
+import java.awt.Font;
+
+import javax.swing.JLabel;
+import javax.swing.UIManager;
+
+public class Label extends JLabel{
+	public void Label(String Text)
+	{
+		this.setText(Text);
+		this.setFont(new Font("Arial", Font.PLAIN, 14));
+		
+	}
+}
